@@ -21,8 +21,6 @@ playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, lo
                 break;
         }
     }
-    console.log("Custom Receiver version 3");
-    console.log(loadRequestData);
     return loadRequestData;
 });
 
