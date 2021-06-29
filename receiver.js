@@ -14,7 +14,12 @@ const playerManager = context.getPlayerManager();
 
 // intercept the LOAD request
 playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, loadRequestData => {
-    switch (loadRequestData.media.customData.hlsSegmentFormat) {
+    const customData = loadRequestData.media.customData;
+    if (customData === undefined) return loadRequestData;
+    const hlsSegmentFormat = customData.hlsSegmentFormat;
+    if (hlsSegmentFormat === undefined) return loadRequestData;
+
+    switch (hlsSegmentFormat) {
         case HlsSegmentFormat.AAC:
             loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.AAC;
             break;
@@ -37,6 +42,7 @@ playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, lo
             loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.FMP4;
             break;
     }
+
     return loadRequestData;
 });
 
